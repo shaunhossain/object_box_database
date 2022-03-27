@@ -26,42 +26,17 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     setNewCustomer();
+    // openStore().then((Store store) {
+    //   _store = store;
+    // });
     getApplicationDocumentsDirectory().then((dir) {
-      _store = Store(
-        getObjectBoxModel(),
-        directory: join(dir.path, 'object_box'),
-      );
-
+      _store = Store(getObjectBoxModel(),directory: join(dir.path,'object_box'));
       setState(() {
-        _stream = _store
-            .box<ShopOrder>()
-        // The simplest possible query that just gets ALL the data out of the Box
-            .query()
-            .watch(triggerImmediately: true)
-        // Watching the query produces a Stream<Query<ShopOrder>>
-        // To get the actual data inside a List<ShopOrder>, we need to call find() on the query
-            .map((query) => query.find());
-
+        _stream = _store.box<ShopOrder>().query().watch(triggerImmediately: true).map((query) =>query.find());
         hasBeenInitialized = true;
       });
     });
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   setNewCustomer();
-  //   openStore().then((Store store) {
-  //     _store = store;
-  //   });
-  //   // getApplicationDocumentsDirectory().then((dir) {
-  //   //   _store = Store(getObjectBoxModel(),directory: join(dir.path,'object_box'));
-  //   // });
-  //   setState(() {
-  //     hasBeenInitialized = true;
-  //     _stream = _store.box<ShopOrder>().query().watch(triggerImmediately: true).map((query) =>query.find());
-  //   });
-  // }
 
   @override
   void dispose() {
