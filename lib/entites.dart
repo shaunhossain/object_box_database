@@ -18,5 +18,7 @@ class Customer{
   });
   int id;
   String name;
+
+  @Backlink()
   final orders = ToMany<ShopOrder>();
 }

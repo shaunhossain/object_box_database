@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:object_box_database/entites.dart';
 
 class OrderDataTable extends StatefulWidget {
   final void Function(int columnIndex, bool ascending) onSort;
+  final List<ShopOrder> orders;
 
   const OrderDataTable({
     Key? key,
-    required this.onSort,
+    required this.onSort, required this.orders,
   }) : super(key: key);
 
   @override
@@ -41,21 +43,21 @@ class _OrderDataTableState extends State<OrderDataTable> {
               label: Container(),
             ),
           ],
-          rows: [
-            DataRow(
+          rows: widget.orders.map((order) {
+            return DataRow(
               cells: [
-                const DataCell(
-                  Text('ID'),
+                 DataCell(
+                  Text(order.id.toString()),
                 ),
                 DataCell(
-                  const Text('CUSTOMER NAME'),
+                  Text(order.customer.target?.name ?? 'None'),
                   onTap: () {
                     // TODO: Show only tapped customer's orders in a modal bottom sheet
                   },
                 ),
-                const DataCell(
+                DataCell(
                   Text(
-                    '\$PRICE',
+                    '\$${order.price.toString()}',
                   ),
                 ),
                 DataCell(
@@ -65,8 +67,8 @@ class _OrderDataTableState extends State<OrderDataTable> {
                   },
                 ),
               ],
-            ),
-          ],
+            );
+          }).toList(),
         ),
       ),
     );
